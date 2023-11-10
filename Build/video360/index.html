@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Video</title>
+  <meta name="description" content="Video - A-Frame">
+  <script src="./aframe-master.js"></script>
+  <script src="./play-on-click.js"></script>
+  <script src="./hide-on-play.js"></script>
+</head>
+
+<body style="background-color: white; margin: 0;">
+  <a-scene>
+    <video id="video" preload="auto"
+      src="https://cdn.glitch.me/24576e27-bac4-43bb-b9c1-e491ba6720e4/com_Shamanka_VR_360.mp4?v=1698320657109"
+      crossOrigin="anonymous"></video>
+    </a-assets>
+    <a-videosphere rotation="0 -90 0" src="#video" visible="false" play-on-click>
+    </a-videosphere>
+    <a-camera>
+      <a-entity position="0 0 -1.5" text="align: center;
+                width: 6;
+                wrapCount: 100;
+                color: black;
+                value: Press to start video" hide-on-play="#video">
+      </a-entity>
+    </a-camera>
+  </a-scene>
+  <script>
+    AFRAME.registerComponent('aframe-injected', {
+      schema: {},
+
+      init: function () {
+        const removeElement = document.querySelector(".a-enter-xr-button");
+        removeElement.style.display = "none";
+
+        const videoContent = document.querySelector("#video");
+        videoContent.addEventListener("ended", function () {
+          document.body.innerHTML = "";
+          document.body.style.display = "none";
+          window.parent.postMessage("close_content", "*");
+        });
+      },
+    });
+  </script>
+</body>
+
+</html>
