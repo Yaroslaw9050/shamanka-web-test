@@ -124,16 +124,31 @@
         console.log("Invoke close event")
         if(isMessageEntered) return;
         iFrameElement.remove();
-        isMessageEntered = true;
-        myInstance.SendMessage(unityObjectName, 'StartGameInWeb');
-
-        if(myInstance) return;
-        
-        setTimeout(function() {
+        isMessageEntered = true;       
+        if(myInstance)
+        {
           myInstance.SendMessage(unityObjectName, 'StartGameInWeb');
-        }, 15000)
+          return;
+        } 
+        
+        console.log("reload");
+        reload();
       }
     });
+
+    function reload()
+    {
+      setTimeout(function() {
+        if(myInstance)
+        {
+          myInstance.SendMessage(unityObjectName, 'StartGameInWeb');
+        }
+        else
+        {
+          reload();
+        }
+        }, 2000)
+    }
   </script>
 </body>
 </html>
